@@ -123,6 +123,7 @@ func (uh *UploadHandler) uploader() {
 		case <-uh.signalUploadFailure:
 		default:
 			_, err := io.Copy(uh.writer, currBlock.Reader())
+			err = gcs.GetGCSError(err)
 			if err != nil {
 				logger.Errorf("buffered write upload failed for object %s: error in io.Copy: %v", uh.objectName, err)
 				uh.closeUploadFailureChannel()
