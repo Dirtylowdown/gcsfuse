@@ -27,7 +27,7 @@ type InvariantChecker interface {
 }
 
 // Provides methods to read data at a specific offset
-type DataReaderWithEnd interface {
+type DataReaderWithPosition interface {
 	ReadAt(ctx context.Context, p []byte, offset, end int64) (objectData readers.ObjectData, err error)
 }
 
