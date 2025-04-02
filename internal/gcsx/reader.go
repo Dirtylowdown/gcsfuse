@@ -37,7 +37,7 @@ type Reader interface {
 	// byte array. In case input array is populated, the same array will be returned
 	// as part of response. Hence the callers should use the byte array returned
 	// as part of response always.
-	ReadAt(ctx context.Context, p []byte, offset int64) (objectData readers.ObjectData, err error)
+	ReadAt(ctx context.Context, p []byte, offset, end int64) (objectData readers.ObjectData, err error)
 
 	// Return the record for the object to which the reader is bound.
 	Object() (o *gcs.MinObject)
