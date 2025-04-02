@@ -46,10 +46,15 @@ type Destroyer interface {
 	Destroy()
 }
 
-// Combines all interfaces for a complete reader
+// Base reader interface without Object()
 type Reader interface {
 	InvariantChecker
 	DataReader
-	ObjectAccessor
 	Destroyer
+}
+
+// Extended reader that also needs Object() method
+type ReadManager interface {
+	Reader
+	ObjectAccessor
 }
