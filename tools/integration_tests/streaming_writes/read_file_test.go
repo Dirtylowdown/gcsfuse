@@ -15,7 +15,9 @@
 package streaming_writes
 
 import (
+	"log"
 	"path"
+	"time"
 
 	. "github.com/googlecloudplatform/gcsfuse/v2/tools/integration_tests/util/client"
 	"github.com/googlecloudplatform/gcsfuse/v2/tools/integration_tests/util/operations"
@@ -32,6 +34,11 @@ func (t *defaultMountCommonTest) TestReadFileSucceedsForZB() {
 
 	// Reading the file contents.
 	buf := make([]byte, len(t.data))
+	for i := 0; i < 10; i++ {
+		time.Sleep(5 * time.Second)
+		_, err = t.f1.ReadAt(buf, 0)
+		log.Printf("Read error: %v", err)
+	}
 	_, err = t.f1.ReadAt(buf, 0)
 
 	t.validateReadSucceedsForZB(err)
