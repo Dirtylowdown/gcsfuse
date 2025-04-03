@@ -27,11 +27,14 @@ func (t *defaultMountCommonTest) TestReadLocalFileFails() {
 	// Write some content to local file.
 	_, err := t.f1.WriteAt([]byte(FileContents), 0)
 	assert.NoError(t.T(), err)
+	// Perform a Sync to flush the data to GCS.
+	operations.SyncFile(t.f1, t.T())
 
-	// Reading the local file content fails.
+	// Reading the local file content succeeds for ZB.
 	buf := make([]byte, len(FileContents))
 	_, err = t.f1.ReadAt(buf, 0)
-	assert.Error(t.T(), err)
+
+	t.validateReadSucceedsIfZB(err)
 
 	// Close the file and validate that the file is created on GCS.
 	CloseFileAndValidateContentFromGCS(ctx, storageClient, t.f1, testDirName, t.fileName, FileContents, t.T())
