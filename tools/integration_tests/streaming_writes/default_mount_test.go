@@ -17,6 +17,7 @@ package streaming_writes
 import (
 	"os"
 
+	"github.com/googlecloudplatform/gcsfuse/v2/internal/cache/util"
 	. "github.com/googlecloudplatform/gcsfuse/v2/tools/integration_tests/local_file"
 	"github.com/googlecloudplatform/gcsfuse/v2/tools/integration_tests/util/setup"
 	"github.com/googlecloudplatform/gcsfuse/v2/tools/integration_tests/util/test_suite"
@@ -28,6 +29,7 @@ type defaultMountCommonTest struct {
 	fileName string
 	// filePath of the above file in the mounted directory.
 	filePath string
+	data     string
 	test_suite.TestifySuite
 }
 
@@ -39,6 +41,7 @@ func (t *defaultMountCommonTest) SetupSuite() {
 
 	setup.MountGCSFuseWithGivenMountFunc(flags, mountFunc)
 	testDirPath = setup.SetupTestDirectory(testDirName)
+	t.data = setup.GenerateRandomString(5 * util.MiB)
 }
 
 func (t *defaultMountCommonTest) TearDownSuite() {
