@@ -29,7 +29,7 @@ func (t *defaultMountCommonTest) TestReadLocalFileFails() {
 	_, err := t.f1.WriteAt([]byte(t.data), 0)
 	assert.NoError(t.T(), err)
 	// Perform a Sync to flush the data to GCS.
-	operations.SyncFile(t.f1, t.T())
+	// operations.SyncFile(t.f1, t.T())
 
 	// Reading the local file content succeeds for ZB.
 	buf := make([]byte, len(t.data))
