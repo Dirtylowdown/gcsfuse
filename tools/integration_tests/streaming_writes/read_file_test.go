@@ -35,7 +35,7 @@ func (t *defaultMountCommonTest) TestReadLocalFileFails() {
 	buf := make([]byte, len(t.data))
 
 	n, err := t.f1.ReadAt(buf, 0)
-	log.Printf("Read bytes: %v", n)
+	log.Printf("Read bytes: %v, %v", n, err)
 
 	// t.validateReadSucceedsIfZB(err)
 
