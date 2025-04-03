@@ -21,19 +21,9 @@ import (
 	"github.com/googlecloudplatform/gcsfuse/v2/internal/storage/gcs"
 )
 
-// Ensures internal consistency of the implementation
-type InvariantChecker interface {
-	CheckInvariants()
-}
-
 // Provides methods to read data at a specific offset
 type DataReaderWithPosition interface {
 	ReadAt(ctx context.Context, p []byte, offset, end int64) (objectData readers.ObjectData, err error)
-}
-
-// Provides methods to read data at a specific offset
-type DataReader interface {
-	ReadAt(ctx context.Context, p []byte, offset int64) (objectData readers.ObjectData, err error)
 }
 
 // Provides access to object metadata
@@ -41,16 +31,11 @@ type ObjectAccessor interface {
 	Object() (o *gcs.MinObject)
 }
 
-// Handles cleanup of resources
-type Destroyer interface {
-	Destroy()
-}
-
 // Base reader interface without Object()
 type Reader interface {
-	InvariantChecker
-	DataReader
-	Destroyer
+	CheckInvariants()
+	ReadAt(ctx context.Context, p []byte, offset int64) (objectData readers.ObjectData, err error)
+	Destroy()
 }
 
 // Extended reader that also needs Object() method
