@@ -15,6 +15,7 @@
 package streaming_writes
 
 import (
+	"log"
 	"path"
 
 	. "github.com/googlecloudplatform/gcsfuse/v2/tools/integration_tests/util/client"
@@ -33,7 +34,8 @@ func (t *defaultMountCommonTest) TestReadLocalFileFails() {
 	// Reading the local file content succeeds for ZB.
 	buf := make([]byte, len(t.data))
 
-	_, err = t.f1.ReadAt(buf, 0)
+	n, err := t.f1.ReadAt(buf, 0)
+	log.Printf("Read bytes: %v", n)
 
 	t.validateReadSucceedsIfZB(err)
 
