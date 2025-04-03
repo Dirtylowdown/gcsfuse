@@ -15,7 +15,6 @@
 package streaming_writes
 
 import (
-	"log"
 	"path"
 
 	. "github.com/googlecloudplatform/gcsfuse/v2/tools/integration_tests/util/client"
@@ -24,21 +23,17 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func (t *defaultMountCommonTest) TestReadLocalFileFails() {
-	// Write some content to local file.
+func (t *defaultMountCommonTest) TestReadFileFails() {
+	// Write some content to the file.
 	_, err := t.f1.WriteAt([]byte(t.data), 0)
 	assert.NoError(t.T(), err)
-	// Perform a Sync to flush the data to GCS.
-	// operations.SyncFile(t.f1, t.T())
 
-	// Reading the local file content succeeds for ZB.
+	// Reading the file content succeeds.
 	buf := make([]byte, len(t.data))
 
-	n, err := t.f1.ReadAt(buf, 0)
-	log.Printf("Read bytes: %v, %v", n, err)
-
-	// t.validateReadSucceedsIfZB(err)
-
+	readBytes, err := t.f1.ReadAt(buf, 0)
+	require.NoError(t.T(), err)
+	require.Equal(t.T(), len(t.data), readBytes)
 	// Close the file and validate that the file is created on GCS.
 	CloseFileAndValidateContentFromGCS(ctx, storageClient, t.f1, testDirName, t.fileName, t.data, t.T())
 }

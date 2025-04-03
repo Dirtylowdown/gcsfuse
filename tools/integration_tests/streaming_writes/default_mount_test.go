@@ -21,7 +21,6 @@ import (
 	. "github.com/googlecloudplatform/gcsfuse/v2/tools/integration_tests/local_file"
 	"github.com/googlecloudplatform/gcsfuse/v2/tools/integration_tests/util/setup"
 	"github.com/googlecloudplatform/gcsfuse/v2/tools/integration_tests/util/test_suite"
-	"github.com/stretchr/testify/require"
 )
 
 type defaultMountCommonTest struct {
@@ -46,13 +45,4 @@ func (t *defaultMountCommonTest) SetupSuite() {
 
 func (t *defaultMountCommonTest) TearDownSuite() {
 	setup.UnmountGCSFuse(rootDir)
-}
-
-func (t *defaultMountCommonTest) validateReadSucceedsIfZB(err error) {
-	t.T().Helper()
-	if setup.IsZonalBucketRun() {
-		require.NoError(t.T(), err)
-	} else {
-		require.Error(t.T(), err)
-	}
 }
