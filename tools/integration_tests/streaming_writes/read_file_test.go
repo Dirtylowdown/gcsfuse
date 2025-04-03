@@ -23,7 +23,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func (t *defaultMountCommonTest) TestReadFileFails() {
+func (t *defaultMountCommonTest) TestReadFileSucceeds() {
 	// Write some content to the file.
 	_, err := t.f1.WriteAt([]byte(t.data), 0)
 	assert.NoError(t.T(), err)
