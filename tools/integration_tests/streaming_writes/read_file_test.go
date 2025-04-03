@@ -42,8 +42,8 @@ func (t *defaultMountCommonTest) TestReadFileSucceedsForZB() {
 	buf := make([]byte, len(t.data))
 	for i := 0; i < 10; i++ {
 		time.Sleep(5 * time.Second)
-		_, err = t.f1.ReadAt(buf, 0)
-		log.Printf("Read error: %v", err)
+		n, err := t.f1.ReadAt(buf, 0)
+		log.Printf("Read error: %v, read %d", err, n)
 	}
 	_, err = t.f1.ReadAt(buf, 0)
 
