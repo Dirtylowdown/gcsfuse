@@ -22,13 +22,8 @@ import (
 )
 
 // Provides methods to read data at a specific offset
-type DataReaderWithPosition interface {
-	ReadAt(ctx context.Context, p []byte, offset, end int64) (objectData readers.ObjectData, err error)
-}
-
-// Provides access to object metadata
-type ObjectAccessor interface {
-	Object() (o *gcs.MinObject)
+type GCSReader interface {
+	ReadAt(ctx context.Context, req *readers.GCSReaderReq) (objectData readers.ObjectData, err error)
 }
 
 // Base reader interface without Object()
@@ -41,5 +36,5 @@ type Reader interface {
 // Extended reader that also needs Object() method
 type ReadManager interface {
 	Reader
-	ObjectAccessor
+	Object() (o *gcs.MinObject)
 }
