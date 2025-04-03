@@ -32,6 +32,12 @@ func (t *defaultMountCommonTest) TestReadFileSucceedsForZB() {
 	// Sync File to ensure buffers are flushed to GCS.
 	operations.SyncFile(t.f1, t.T())
 
+	statRes, err := operations.StatFile(t.filePath)
+
+	require.NoError(t.T(), err)
+	assert.Equal(t.T(), t.fileName, (*statRes).Name())
+	assert.EqualValues(t.T(), len(t.data), (*statRes).Size())
+
 	// Reading the file contents.
 	buf := make([]byte, len(t.data))
 	for i := 0; i < 10; i++ {
