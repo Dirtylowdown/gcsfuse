@@ -101,6 +101,8 @@ func makeGcsfuseArgs(
 	device string,
 	mountPoint string,
 	opts map[string]string) (args []string, err error) {
+
+	fmt.Println("got options: %v", opts)
 	var flagSet pflag.FlagSet
 	if err := cfg.BuildFlagSet(&flagSet); err != nil {
 		return nil, err
@@ -115,24 +117,30 @@ func makeGcsfuseArgs(
 
 	// Deal with options.
 	for name, value := range opts {
+		fmt.Printf("	checking name: %s -> ", name)
+
 		if flg := findEquivFlag(name, noopOptions); flg != "" {
 			// Don't pass through options that are relevant to mount(8) but not to
 			// gcsfuse, and that fusermount chokes on with "Invalid argument" on Linux.
+			fmt.Println("ignored")
 			continue
 		}
 		if flg := findEquivFlag(name, boolFlags); flg != "" {
 			if value == "" {
 				value = "true"
+				fmt.Println("parsed as true")
 			}
 			args = append(args, fmt.Sprintf("--%s=%s", flg, value))
 		} else if flg := findEquivFlag(name, nonBoolFlags); flg != "" {
 			args = append(args, fmt.Sprintf("--%s", flg), value)
+			fmt.Println("parsed as value")
 		} else {
 			// Pass through everything else
 			formatted := name
 			if value != "" {
 				formatted = fmt.Sprintf("%s=%s", name, value)
 			}
+			fmt.Println("parsed as formatted")
 
 			args = append(args, "-o", formatted)
 		}
