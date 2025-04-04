@@ -113,7 +113,7 @@ func makeGcsfuseArgs(
 		return s == "o"
 	})
 	nonBoolFlags = append(nonBoolFlags, cfg.ConfigFileFlagName)
-	noopOptions := []string{"user", "nouser", "auto", "noauto", "_netdev", "no_netdev"}
+	noopOptions := []string{"rw", "user", "nouser", "auto", "noauto", "_netdev", "no_netdev"}
 
 	// Deal with options.
 	for name, value := range opts {
