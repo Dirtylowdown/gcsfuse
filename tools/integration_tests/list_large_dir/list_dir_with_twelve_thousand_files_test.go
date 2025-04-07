@@ -15,6 +15,7 @@
 package list_large_dir
 
 import (
+	"context"
 	"fmt"
 	"math"
 	"os"
@@ -148,6 +149,10 @@ func listDirTime(t *testing.T, dirPath string, expectExplicitDirs bool, expectIm
 		}
 	}
 	return firstListTime, minSecondListTime
+}
+
+func testdataCreateImplicitDirUsingStorageClient(ctx context.Context, storageClient *storge.Client, testDirPathOnBucket, prefixImplicitDirInLargeDirListTest string, numberOfImplicitDirsInDirectory int, t *testing.T) {
+
 }
 
 // prepareTestDirectory sets up a test directory with files and required explicit and implicit directories.
